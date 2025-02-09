@@ -28,9 +28,9 @@ const HomePage = () => {
     <div className="home">
       <h1 className="text-2xl font-bold">GMAT Adaptive Timed Test</h1>
       <div className="mt-5 sections">
-        <Link to="/test/verbal" className="block p-2 bg-blue-500 text-white rounded">Verbal</Link>
-        <Link to="/test/quant" className="block p-2 bg-green-500 text-white rounded mt-2">Quant</Link>
-        <Link to="/test/data-insights" className="block p-2 bg-red-500 text-white rounded mt-2">Data Insights</Link>
+        <Link to="/GMAT-Mocks/test/verbal" className="block p-2 bg-blue-500 text-white rounded">Verbal</Link>
+        <Link to="/GMAT-Mocks/test/quant" className="block p-2 bg-green-500 text-white rounded mt-2">Quant</Link>
+        <Link to="/GMAT-Mocks/test/data-insights" className="block p-2 bg-red-500 text-white rounded mt-2">Data Insights</Link>
       </div>
 
       <div className="previous-attempts">

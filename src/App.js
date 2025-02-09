@@ -15,8 +15,8 @@ const App = () => {
 	return (
 	  <Router>
 		<Routes>
-		  <Route path="/" element={<HomePage />} />
-		  <Route path="/test/:section" element={<TestPage />} />
+		  <Route path="/GMAT-Mocks" element={<HomePage />} />
+		  <Route path="/GMAT-Mocks/test/:section" element={<TestPage />} />
 		</Routes>
 	  </Router>
 	);

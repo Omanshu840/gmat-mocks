@@ -228,7 +228,7 @@ const TestPage = () => {
         testAttempt.set('Section', section);
         testAttempt.set('Questions', JSON.stringify(attempts));
         await testAttempt.save();
-        navigate("/");
+        navigate("/GMAT-Mocks");
     }
   
     return (
