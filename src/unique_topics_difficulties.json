@@ -1,0 +1,121 @@
+{
+  "CR": {
+    "topics": [
+      "Assumption",
+      "Complete the Passage",
+      "Weaken",
+      "Inference",
+      "Strengthen",
+      "Paradox",
+      "Evaluate",
+      "Bold Face",
+      "Logical Flaw",
+      "Similar Reasoning",
+      "Method of Reasoning",
+      "Complete The Passage",
+      "Method Of Reasoning"
+    ],
+    "difficulties": [
+      "Easy",
+      "Medium",
+      "Hard",
+      "Very Hard"
+    ]
+  },
+  "RC": {
+    "topics": [
+      "Business",
+      "Science",
+      "Social Science",
+      "Humanities"
+    ],
+    "difficulties": [
+      "Easy",
+      "Medium",
+      "Hard",
+      "Very Hard"
+    ]
+  },
+  "Quant": {
+    "topics": [
+      "Arithmetic",
+      "Percents and Interest Problems",
+      "Fractions/Ratios/Decimals",
+      "Exponents/Powers",
+      "Roots",
+      "Algebra",
+      "Absolute Values/Modulus",
+      "Inequalities",
+      "Divisibility/Multiples/Factors",
+      "Number Properties",
+      "Remainders",
+      "Distance/Rate Problems",
+      "Mixture Problems",
+      "Work/Rate Problems",
+      "Word Problems",
+      "Statistics and Sets Problems",
+      "Overlapping Sets",
+      "Coordinate Geometry",
+      "Combinations",
+      "Probability",
+      "Functions and Custom Characters",
+      "Sequences",
+      "Graphs and Illustrations"
+    ],
+    "difficulties": [
+      "Easy",
+      "Medium",
+      "Hard",
+      "Very Hard"
+    ]
+  },
+  "DI": {
+    "topics": [
+      "Two-Part",
+      "MSR",
+      "Tables",
+      "Graphs"
+    ],
+    "difficulties": [
+      "Easy",
+      "Medium",
+      "Hard",
+      "Very Hard"
+    ]
+  },
+  "DS": {
+    "topics": [
+      "Arithmetic",
+      "Fractions/Ratios/Decimals",
+      "Exponents/Powers",
+      "Percents and Interest Problems",
+      "Roots",
+      "Algebra",
+      "Absolute Values/Modulus",
+      "Inequalities",
+      "Number Properties",
+      "Divisibility/Multiples/Factors",
+      "Remainders",
+      "Distance/Rate Problems",
+      "Mixture Problems",
+      "Work/Rate Problems",
+      "Statistics and Sets Problems",
+      "Word Problems",
+      "Overlapping Sets",
+      "Coordinate Geometry",
+      "Probability",
+      "Functions and Custom Characters",
+      "Sequences",
+      "Graphs and Illustrations",
+      "Geometry",
+      "Non-Math Related",
+      "Combinations"
+    ],
+    "difficulties": [
+      "Easy",
+      "Medium",
+      "Hard",
+      "Very Hard"
+    ]
+  }
+}
