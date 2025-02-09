@@ -15,8 +15,8 @@ const App = () => {
 	return (
 	  <Router>
 		<Routes>
-		  <Route path="/GMAT-Mocks" element={<HomePage />} />
-		  <Route path="/GMAT-Mocks/test/:section" element={<TestPage />} />
+		  <Route path="/gmat-mocks" element={<HomePage />} />
+		  <Route path="/gmat-mocks/test/:section" element={<TestPage />} />
 		</Routes>
 	  </Router>
 	);

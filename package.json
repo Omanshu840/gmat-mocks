@@ -2,7 +2,7 @@
   "name": "gmat-mocks",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://omanshu840.github.io/GMAT-Mocks",
+  "homepage": "https://omanshu840.github.io/gmat-mocks",
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",
     "axios": "^1.7.9",

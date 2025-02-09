@@ -13,7 +13,7 @@ const totalQuestions = {
 const TestPage = () => {
     const { section } = useParams();
     const navigate = useNavigate();
-    const [currentIndex, setCurrentIndex] = useState(-1);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [question, setQuestion] = useState({});
     const [currentDifficulty, setCurrentDifficulty] = useState("Medium");
     const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -50,15 +50,20 @@ const TestPage = () => {
     useEffect(() => {
         async function fetchData() {
             const newAttemptedQuestions = [];
-            const query = new Parse.Query('AttemptedQuestions');
+            const query = new Parse.Query('TestAttempts');
             const entries = await query.find();
             entries.forEach(entry => {
-                newAttemptedQuestions.push({
-                    id: entry.id,
-                    questionNumber: entry.attributes.QuestionNumber,
-                    type: entry.attributes.Type
-                })
+                if(entry.attributes.Section === section) {
+                    const attemptedQuestion = JSON.parse(entry.attributes.Questions);
+                    attemptedQuestion.forEach(q => {
+                        newAttemptedQuestions.push({
+                            questionNumber: q.questionNumber,
+                            type: q.type
+                        })
+                    })
+                }
             })
+            console.log(newAttemptedQuestions);
             setAttemptedQuestions(newAttemptedQuestions);
             nextQuestion();
         }
@@ -210,25 +215,18 @@ const TestPage = () => {
       );
     }
 
+    const changeQuestion = () => {
+        const newQuestion = getFilteredQuestion(question.type, question.topic, question.difficulty);
+        setQuestion(newQuestion);
+    }
+
     const onEndTest = async (newVal) => {
-
         const attempts = newVal || currAttempt;
-
-        const parseAttemptedQuestion = [];
-
-        attempts.forEach(async attempt => {
-            let attemptedQuestion = new Parse.Object('AttemptedQuestions');
-            attemptedQuestion.set('Type', attempt.type);
-            attemptedQuestion.set('QuestionNumber', attempt.questionNumber);
-            parseAttemptedQuestion.push(attemptedQuestion);
-            await attemptedQuestion.save();
-        });
-
         let testAttempt = new Parse.Object('TestAttempts');
         testAttempt.set('Section', section);
         testAttempt.set('Questions', JSON.stringify(attempts));
         await testAttempt.save();
-        navigate("/GMAT-Mocks");
+        navigate("/gmat-mocks");
     }
   
     return (
@@ -237,12 +235,20 @@ const TestPage = () => {
             <button onClick={() => onEndTest()} className="p-2 bg-blue-500 text-white rounded mt-3">End</button>
             <div>Time Left: {Math.floor(timeLeft / 60)}:{timeLeft % 60}</div>
         </div>
-        <h2 className="text-xl font-bold">Question {currentIndex} of {totalQuestions[section]}</h2>
-        <a href={question.link} target="_blank" className="text-blue-500 link">Attempt Here</a>
-        <div className="mt-3 radio-buttons">
-            <button onClick={() => nextQuestion(true)} className="p-2 bg-blue-500 text-white rounded mt-3">Correct</button>
-            <button onClick={() => nextQuestion(false)} className="p-2 bg-blue-500 text-white rounded mt-3">Incorrect</button>
+        <div className="question-info">
+            <h2 className="text-xl font-bold">Question {currentIndex} of {totalQuestions[section]}</h2>
+            <div className="mt-3 radio-buttons">
+                <button onClick={() => nextQuestion(true)} className="p-2 bg-blue-500 text-white rounded mt-3">Correct</button>
+                <button onClick={() => nextQuestion(false)} className="p-2 bg-blue-500 text-white rounded mt-3">Incorrect</button>
+                <button onClick={() => changeQuestion()} className="p-2 bg-blue-500 text-white rounded mt-3">Change</button>
+            </div>
         </div>
+        {/* <a href={question.link} target="_blank" className="text-blue-500 link">Attempt Here</a> */}
+        <iframe 
+            src={question.link} 
+            className="question-iframe"
+            title="GMAT Question"
+        ></iframe>
       </div>
     );
   };
