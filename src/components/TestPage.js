@@ -3,6 +3,7 @@ import {Link, useParams, useNavigate} from "react-router-dom";
 import questions from "../questions.json";
 import topicsDifficulties from "../unique_topics_difficulties.json";
 import Parse from 'parse/dist/parse.min.js';
+import prevAttempts from "../prevAttempts/test.json";
 
 const totalQuestions = {
     "verbal": 23,
@@ -52,6 +53,7 @@ const TestPage = () => {
             const newAttemptedQuestions = [];
             const query = new Parse.Query('TestAttempts');
             const entries = await query.find();
+            // const entries = prevAttempts.results;
             entries.forEach(entry => {
                 if(entry.attributes.Section === section) {
                     const attemptedQuestion = JSON.parse(entry.attributes.Questions);
@@ -100,7 +102,8 @@ const TestPage = () => {
             }
         }
 
-        if(sectionType==="DS" && questionMapping[section][sectionType]===0) {
+        if((sectionType==="DS" && questionMapping[section][sectionType]===0)
+            || (sectionType==="DS" && (questionMapping[section][sectionType]*5 < (totalQuestions["data-insights"]-currentIndex+1)))) {
             sectionType = "DI";
         }
 
@@ -164,7 +167,6 @@ const TestPage = () => {
         }
 
         // setAttemptedQuestions([...attemptedQuestions, { ...question, selectedAnswer }]);
-        setSelectedAnswer(currentAnswer);
 
         if(currentIndex === totalQuestions[section]) {
             onEndTest(newVal);
@@ -174,7 +176,7 @@ const TestPage = () => {
         const nextQuestionType = getNextQuestionType();
         const nextSectionType = nextQuestionType.sectionType;
         const nextSubSectionType = nextQuestionType.subSectionType;
-        const newDifficulty = currentAnswer ? increaseDifficulty(nextSectionType) : decreaseDifficulty(nextSectionType);
+        const newDifficulty = currentAnswer ? increaseDifficulty(nextSectionType) : decreaseDifficulty(nextSectionType, currentAnswer);
 
         const filteredQuestion = getFilteredQuestion(nextSectionType, nextSubSectionType, newDifficulty);
 
@@ -191,6 +193,7 @@ const TestPage = () => {
             return prev+1;
         });
         setQuestionType(nextQuestionType);
+        setSelectedAnswer(currentAnswer);
     };
   
     const increaseDifficulty = (sectionType) => {
@@ -199,24 +202,20 @@ const TestPage = () => {
       return index < difficulties.length - 1 ? difficulties[index + 1] : currentDifficulty;
     };
   
-    const decreaseDifficulty = (sectionType) => {
-        if(selectedAnswer===null) return "Medium";
-      const difficulties = topicsDifficulties[sectionType].difficulties;
-      const index = difficulties.indexOf(currentDifficulty);
-      return index > 0 ? difficulties[index - 1] : currentDifficulty;
+    const decreaseDifficulty = (sectionType, currentAnswer) => {
+        if(currentAnswer===null) return "Medium";
+        if(selectedAnswer) {
+            return currentDifficulty;
+        } else {
+            const difficulties = topicsDifficulties[sectionType].difficulties;
+            const index = difficulties.indexOf(currentDifficulty);
+            return index > 0 ? difficulties[index - 1] : currentDifficulty;
+        }
     };
-  
-    if (timeLeft <= 0) {
-      return (
-        <div className="p-5 text-center">
-          <h1 className="text-xl font-bold">Test Completed</h1>
-          <Link to="/" className="p-2 bg-gray-500 text-white rounded mt-2">Return Home</Link>
-        </div>
-      );
-    }
 
     const changeQuestion = () => {
-        const newQuestion = getFilteredQuestion(question.type, question.topic, question.difficulty);
+        const topic = question.topic !== "Geometry" ? question.topic : "";
+        const newQuestion = getFilteredQuestion(question.type, topic, question.difficulty);
         setQuestion(newQuestion);
     }
 
@@ -228,19 +227,29 @@ const TestPage = () => {
         await testAttempt.save();
         navigate("/gmat-mocks");
     }
+
+    if (timeLeft <= 0) {
+        onEndTest();
+        return (
+            <div className="p-5 text-center">
+            <h1 className="text-xl font-bold">Test Completed</h1>
+            <Link to="/" className="p-2 bg-gray-500 text-white rounded mt-2">Return Home</Link>
+            </div>
+        );
+    }
   
     return (
-      <div className="home p-5 text-center">
-        <div className="mt-3 timer">
-            <button onClick={() => onEndTest()} className="p-2 bg-blue-500 text-white rounded mt-3">End</button>
+      <div className="home">
+        <div className="timer">
+            <button onClick={() => onEndTest()} className="">End</button>
             <div>Time Left: {Math.floor(timeLeft / 60)}:{timeLeft % 60}</div>
         </div>
         <div className="question-info">
-            <h2 className="text-xl font-bold">Question {currentIndex} of {totalQuestions[section]}</h2>
-            <div className="mt-3 radio-buttons">
-                <button onClick={() => nextQuestion(true)} className="p-2 bg-blue-500 text-white rounded mt-3">Correct</button>
-                <button onClick={() => nextQuestion(false)} className="p-2 bg-blue-500 text-white rounded mt-3">Incorrect</button>
-                <button onClick={() => changeQuestion()} className="p-2 bg-blue-500 text-white rounded mt-3">Change</button>
+            <div className="text-bold"><b>Question {currentIndex} of {totalQuestions[section]}</b> <a href={question.link} target="_blank" className="text-blue-500">{question.questionNumber}</a></div>
+            <div className="radio-buttons">
+                <button onClick={() => nextQuestion(true)} className="">Correct</button>
+                <button onClick={() => nextQuestion(false)} className="">Incorrect</button>
+                <button onClick={() => changeQuestion()} className="">Change</button>
             </div>
         </div>
         {/* <a href={question.link} target="_blank" className="text-blue-500 link">Attempt Here</a> */}

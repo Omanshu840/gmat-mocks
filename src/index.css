@@ -76,6 +76,7 @@ body {
 
 .previous-attempts {
   margin-top: 50px;
+  width: 100%;
 }
 
 .previous-attempts .heading {
@@ -84,12 +85,18 @@ body {
     text-align: center;
 }
 
+.previous-attempts .nav {
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
 .attempt-card {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     row-gap: 8px;
+    background-color: white;
 }
 
 .attempt-card .question {
@@ -124,7 +131,8 @@ body {
 
 .question-info {
   display: flex;
-    justify-content: space-around;
-    width: 100%;
-    align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  align-items: center;
+  margin: 10px;
 }
