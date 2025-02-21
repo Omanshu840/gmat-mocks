@@ -96,6 +96,7 @@ const HomePage = () => {
                                     <td>{question.difficulty}</td>
                                     <td>{question.answer ? "Correct": <div style={{color: 'red'}}>Incorrect</div>}</td>
                                     <td><div style={{overflowWrap: 'break-word'}}>{question.topic}</div></td>
+                                    <td>{question.timeTaken}</td>
                                 </tr>
                             ))}
                         </tbody>
