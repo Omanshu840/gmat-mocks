@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/gmat-mocks/static/css/main.b9b53132.css",
-    "main.js": "/gmat-mocks/static/js/main.37a53e1b.js",
+    "main.css": "/gmat-mocks/static/css/main.a92220fb.css",
+    "main.js": "/gmat-mocks/static/js/main.89da2c66.js",
     "index.html": "/gmat-mocks/index.html",
-    "main.b9b53132.css.map": "/gmat-mocks/static/css/main.b9b53132.css.map",
-    "main.37a53e1b.js.map": "/gmat-mocks/static/js/main.37a53e1b.js.map"
+    "main.a92220fb.css.map": "/gmat-mocks/static/css/main.a92220fb.css.map",
+    "main.89da2c66.js.map": "/gmat-mocks/static/js/main.89da2c66.js.map"
   },
   "entrypoints": [
-    "static/css/main.b9b53132.css",
-    "static/js/main.37a53e1b.js"
+    "static/css/main.a92220fb.css",
+    "static/js/main.89da2c66.js"
   ]
 }
