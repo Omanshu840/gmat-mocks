@@ -3029,5 +3029,83 @@
     "link": "https://gmatclub.com/forum/15-146872.html",
     "topic": "Algebra",
     "difficulty": "Medium"
+  },
+
+  {
+    "type": "Quant",
+    "questionNumber": 5148,
+    "link": "https://gmatclub.com/forum/if-k-is-a-positive-integer-and-5-k-is-a-factor-of-the-product-421281.html",
+    "topic": "Multiples And Factors",
+    "difficulty": "Hard"
+  },
+  {
+    "type": "Quant",
+    "questionNumber": 5156,
+    "link": "https://gmatclub.com/forum/the-numbers-t-v-w-x-and-z-are-indicated-on-the-number-line-shown-443731.html",
+    "topic": "Absolute Values",
+    "difficulty": "Medium"
+  },
+  {
+    "type": "Quant",
+    "questionNumber": 5157,
+    "link": "https://gmatclub.com/forum/which-of-the-following-is-equal-to-443732.html",
+    "topic": "Roots",
+    "difficulty": "Easy"
+  },
+  {
+    "type": "Quant",
+    "questionNumber": 5180,
+    "link": "https://gmatclub.com/forum/which-of-the-following-is-equal-to-the-ratio-of-5-to-443328.html",
+    "topic": "Fractions And Ratios",
+    "difficulty": "Medium"
+  },
+  {
+    "type": "Quant",
+    "questionNumber": 5190,
+    "link": "https://gmatclub.com/forum/the-five-steps-shown-will-result-in-an-expression-equivalent-to-which-417128.html",
+    "topic": "Algebra",
+    "difficulty": "Easy"
+  },
+  {
+    "type": "Quant",
+    "questionNumber": 5164,
+    "link": "https://gmatclub.com/forum/if-is-defined-for-all-nonnegative-integers-b-by-b-b-1-b-what-424999.html",
+    "topic": "Functions And Custom Characters",
+    "difficulty": "Easy"
+  },
+  {
+    "type": "Quant",
+    "questionNumber": 5195,
+    "link": "https://gmatclub.com/forum/if-events-e-and-f-are-independent-and-each-has-probability-p-of-416705.html",
+    "topic": "Probability",
+    "difficulty": "Easy"
+  },
+  {
+    "type": "Quant",
+    "questionNumber": 5163,
+    "link": "https://gmatclub.com/forum/if-h-hammers-cost-a-total-of-d-dollars-then-at-the-same-rate-how-424955.html",
+    "topic": "Word Problems",
+    "difficulty": "Easy"
+  },
+  {
+    "type": "Quant",
+    "questionNumber": 5155,
+    "link": "https://gmatclub.com/forum/1-416671.html",
+    "topic": "Roots",
+    "difficulty": "Easy"
+  },
+  {
+    "type": "Quant",
+    "questionNumber": 5191,
+    "link": "https://gmatclub.com/forum/if-x-2-x-1-2-a-what-is-x-in-terms-of-a-434552.html",
+    "topic": "Algebra",
+    "difficulty": "Easy"
+  },
+  {
+    "type": "Quant",
+    "questionNumber": 5169,
+    "link": "https://gmatclub.com/forum/of-the-faculty-members-at-a-certain-university-4-9-are-in-the-school-424956.html",
+    "topic": "Fractions And Ratios",
+    "difficulty": "Easy"
   }
 ]

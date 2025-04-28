@@ -5,7 +5,7 @@ import quant_question from "../scraper/quant_questions.json";
 import TPA_questions from "../scraper/TPA_questions.json";
 import MSR_questions from "../scraper/MSR_questions.json";
 import G_T_questions from "../scraper/G_T_questions.json";
-import PS_Focus_questions from "../scraper/PS_Focus_questions.json";
+import PS_Focus_questions from "../scraper/PS_Focus_questionsV2.json";
 import CR_Focus_questions from "../scraper/CR_Focus_questions.json";
 import RC_Focus_questions from "../scraper/RC_Focus_questions.json";
 import MSR_Focus_questions from "../scraper/MSR_Focus_questions.json";
@@ -17,6 +17,7 @@ import PS_OG_question from "../scraper/PS_OG_questions.json";
 import topicsDifficulties from "../unique_topics_difficulties.json";
 import Parse from "parse/dist/parse.min.js";
 import prevAttempts from "../prevAttempts/test.json";
+import { Col, Container } from "react-bootstrap";
 
 const totalQuestions = {
     verbal: 23,
@@ -24,13 +25,14 @@ const totalQuestions = {
     "data-insights": 20,
 };
 
-const TestPage = () => {
+const TestPageV2 = () => {
     const { section, source } = useParams();
     const navigate = useNavigate();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [question, setQuestion] = useState({});
     const [currentDifficulty, setCurrentDifficulty] = useState("Hard");
     const [selectedAnswer, setSelectedAnswer] = useState(null);
+    const [answer, setAnswer] = useState(null);
     const [timeLeft, setTimeLeft] = useState(45 * 60);
     const [lastTimeCheck, setLastTime] = useState(0);
     const [questionMapping, setQuestionMapping] = useState({
@@ -110,6 +112,12 @@ const TestPage = () => {
         }
 
         fetchData();
+
+        window.https2http = function (imgElement) {
+            if (imgElement && imgElement.src) {
+              imgElement.src = imgElement.src.replace('https://', 'http://');
+            }
+          };
 
         const timer = setInterval(
             () => setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0)),
@@ -304,7 +312,7 @@ const TestPage = () => {
         return { sectionType, subSectionType, showSameQuestion };
     };
 
-    const nextQuestion = (currentAnswer) => {
+    const nextQuestion = (currentAnswer, answer) => {
         const newVal = currAttempt;
 
         if (
@@ -321,6 +329,7 @@ const TestPage = () => {
                 link: question.link,
                 topic: question.topic,
                 answer: currentAnswer,
+                selectedAnswer: answer,
                 timeTaken: `${Math.floor(timeTaken / 60)}:${
                     timeTaken % 60 < 10 ? `0${timeTaken % 60}` : timeTaken % 60
                 }`,
@@ -349,6 +358,8 @@ const TestPage = () => {
             );
             console.log(filteredQuestion);
             setQuestion(filteredQuestion);
+            setAnswer("");
+            document.getElementById("question-container").innerHTML = filteredQuestion.questionText
             setCurrentDifficulty(newDifficulty);
         }
         setCurrentIndex((prev) => {
@@ -386,6 +397,7 @@ const TestPage = () => {
             topic,
             question.difficulty
         );
+        document.getElementById("question-container").innerHTML = newQuestion.questionText
         setQuestion(newQuestion);
     };
 
@@ -423,25 +435,34 @@ const TestPage = () => {
                     </a>
                 </div>
                 <div className="radio-buttons">
-                    <button onClick={() => nextQuestion(true)} className="">
-                        Correct
-                    </button>
-                    <button onClick={() => nextQuestion(false)} className="">
-                        Incorrect
+                    <button onClick={() => nextQuestion(answer===question.answer, answer)} className="">
+                        Next
                     </button>
                     <button onClick={() => changeQuestion()} className="">
                         Change
                     </button>
                 </div>
             </div>
-            {/* <a href={question.link} target="_blank" className="text-blue-500 link">Attempt Here</a> */}
-            <iframe
-                src={question.link}
-                className="question-iframe"
-                title="GMAT Question"
-            ></iframe>
+            <Container>
+                {/* <a href={question.link} target="_blank" className="text-blue-500 link">Attempt Here</a> */}
+                <div id="question-container" className="question-container mt-5 mb-3 p-4">
+                    {/* {question.questionText} */}
+                </div>
+                <div className="options">
+                    {["A", "B", "C", "D", "E"].map((option, index) => (
+                        <div
+                            className={`option ${
+                                answer === option ? "selected" : ""
+                            }`}
+                            onClick={() => setAnswer(option)}
+                        >
+                            {option}
+                        </div>
+                    ))}
+                </div>
+            </Container>
         </div>
     );
 };
 
-export default TestPage;
+export default TestPageV2;

@@ -1,3 +1,4 @@
+const PS_Focus_questions = require("./PS_Focus_questions.json");
 const fs = require('fs');
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
@@ -16,7 +17,9 @@ const SEARCH_URLS = {
     DS_Focus: "https://gmatclub.com/forum/search.php?selected_search_tags%5B%5D=1541&selected_search_tags%5B%5D=1534&selected_search_tags%5B%5D=180&selected_search_tags%5B%5D=1527&selected_search_tags%5B%5D=222&selected_search_tags%5B%5D=223&selected_search_tags%5B%5D=1548&selected_search_tags%5B%5D=1985&selected_search_tags%5B%5D=1992&t=0&search_tags=exact&submit=Search",
     G_T_Focus: "https://gmatclub.com/forum/search.php?selected_search_tags%5B%5D=1626&selected_search_tags%5B%5D=1627&selected_search_tags%5B%5D=1556&selected_search_tags%5B%5D=1628&selected_search_tags%5B%5D=1557&selected_search_tags%5B%5D=1558&selected_search_tags%5B%5D=1560&selected_search_tags%5B%5D=1989&selected_search_tags%5B%5D=1991&t=0&search_tags=exact&submit=Search",
     MSR_Focus: "https://gmatclub.com/forum/search.php?selected_search_tags%5B%5D=1630&selected_search_tags%5B%5D=1631&selected_search_tags%5B%5D=1594&selected_search_tags%5B%5D=1632&selected_search_tags%5B%5D=1593&selected_search_tags%5B%5D=1592&selected_search_tags%5B%5D=1598&selected_search_tags%5B%5D=2011&t=0&search_tags=exact&submit=Search",
-    TPA_Focus: "https://gmatclub.com/forum/search.php?selected_search_tags%5B%5D=1634&selected_search_tags%5B%5D=1635&selected_search_tags%5B%5D=1569&selected_search_tags%5B%5D=1636&selected_search_tags%5B%5D=1570&selected_search_tags%5B%5D=1571&selected_search_tags%5B%5D=1578&selected_search_tags%5B%5D=2012&selected_search_tags%5B%5D=1986&t=0&search_tags=exact&submit=Search"
+    TPA_Focus: "https://gmatclub.com/forum/search.php?selected_search_tags%5B%5D=1634&selected_search_tags%5B%5D=1635&selected_search_tags%5B%5D=1569&selected_search_tags%5B%5D=1636&selected_search_tags%5B%5D=1570&selected_search_tags%5B%5D=1571&selected_search_tags%5B%5D=1578&selected_search_tags%5B%5D=2012&selected_search_tags%5B%5D=1986&t=0&search_tags=exact&submit=Search",
+    RC_Non_Official: "https://gmatclub.com/forum/search.php?selected_search_tags%5B%5D=1622&selected_search_tags%5B%5D=1623&selected_search_tags%5B%5D=162&selected_search_tags%5B%5D=1428&selected_search_tags%5B%5D=1416&selected_search_tags%5B%5D=521&selected_search_tags%5B%5D=1484&selected_search_tags%5B%5D=1404&selected_search_tags%5B%5D=1443&selected_search_tags%5B%5D=1449&selected_search_tags%5B%5D=364&selected_search_tags%5B%5D=1358&selected_search_tags%5B%5D=205&selected_search_tags%5B%5D=1394&selected_search_tags%5B%5D=1494&selected_search_tags%5B%5D=1421&selected_search_tags%5B%5D=1481&selected_search_tags%5B%5D=165&selected_search_tags%5B%5D=255&selected_search_tags%5B%5D=316&selected_search_tags%5B%5D=256&selected_search_tags%5B%5D=1614&selected_search_tags%5B%5D=1427&selected_search_tags%5B%5D=1417&selected_search_tags%5B%5D=1419&selected_search_tags%5B%5D=1420&selected_search_tags%5B%5D=275&selected_search_tags%5B%5D=1472&selected_search_tags%5B%5D=274&selected_search_tags%5B%5D=1492&selected_search_tags%5B%5D=277&t=0&search_tags=exact&submit=Search",
+    PS_OG: "https://gmatclub.com/forum/search.php?selected_search_tags%5B%5D=1540&selected_search_tags%5B%5D=1533&selected_search_tags%5B%5D=187&selected_search_tags%5B%5D=1526&selected_search_tags%5B%5D=216&selected_search_tags%5B%5D=217&selected_search_tags%5B%5D=190&selected_search_tags%5B%5D=1326&selected_search_tags%5B%5D=1984&selected_search_tags%5B%5D=1461&selected_search_tags%5B%5D=1423&selected_search_tags%5B%5D=1342&selected_search_tags%5B%5D=1253&selected_search_tags%5B%5D=1254&selected_search_tags%5B%5D=1255&selected_search_tags%5B%5D=1256&selected_search_tags%5B%5D=1257&selected_search_tags%5B%5D=1258&selected_search_tags%5B%5D=1259&selected_search_tags%5B%5D=1260&selected_search_tags%5B%5D=1327&selected_search_tags%5B%5D=1462&selected_search_tags%5B%5D=1433&selected_search_tags%5B%5D=1343&selected_search_tags%5B%5D=1311&selected_search_tags%5B%5D=1312&selected_search_tags%5B%5D=1313&selected_search_tags%5B%5D=1314&selected_search_tags%5B%5D=1295&selected_search_tags%5B%5D=1266&t=0&search_tags=exact&submit=Search"
 };
 
 (async () => {
@@ -51,21 +54,22 @@ const SEARCH_URLS = {
 
     console.log("Login detected! Proceeding with scraping...");
 
-    let url = SEARCH_URLS.TPA_Focus;
+    let url = SEARCH_URLS.PS_Focus;
 
     // Navigate to search page after login
     await page.goto(url, { waitUntil: "networkidle2" });
 
-    let questionNumber = 2228;
+    let questionNumber = 5147;
     let results = [];
     let currentPage = 1;
-    let MAX_PAGES = 17;
+    let MAX_PAGES = 16;
+    let parsed_questions = PS_Focus_questions;
 
     while (currentPage <= MAX_PAGES) {
         console.log(`Scraping page ${currentPage}...`);
         await page.waitForSelector('.topic-table', { timeout: 60000 });
 
-        const data = await page.evaluate((questionNumber) => {
+        const data = await page.evaluate((questionNumber, parsed_questions) => {
             // Re-define the function inside `evaluate`
             const mapDifficulty = (level) => {
                 if (level.includes("805+")) return "Very Hard";
@@ -81,27 +85,31 @@ const SEARCH_URLS = {
             rows.forEach((row, index) => {
                 let linkElem = row.querySelector('.topic-table-column4 .topic-link');
                 let tagsElem = row.querySelector('.topic-table-column4 .topic-tags');
+                let attemptedElm = row.querySelector('.table-topic-row5 .timers-wrap .timerMark');
                 
-                if (linkElem && tagsElem) {
-                    const type = "DI";
+                if (linkElem && tagsElem && !attemptedElm) {
+                    const type = "Quant";
                     let link = linkElem.href;
                     let difficultyTag = tagsElem.querySelectorAll('a')[0]?.innerText || "";
                     let topicTag = tagsElem.querySelectorAll('a')[1]?.innerText || "";
                     if(type === "DI" && (topicTag === "Math Related" || topicTag==="Non-Math Related")) {
                         topicTag = tagsElem.querySelectorAll('a')[2]?.innerText || "";
                     }
-        
-                    extractedData.push({
-                        type: type,
-                        questionNumber: questionNumber + index,
-                        link: link,
-                        topic: "Two-Part",
-                        difficulty: mapDifficulty(difficultyTag)  // Now this function exists
-                    });
+                    const parsedQuestion = parsed_questions.find(q => q.link === link);
+                    if (!parsedQuestion) {
+                        extractedData.push({
+                            type: type,
+                            questionNumber: questionNumber + index,
+                            link: link,
+                            topic: topicTag,
+                            difficulty: mapDifficulty(difficultyTag)  // Now this function exists
+                        });
+                    }
+                    
                 }
             });
             return extractedData;
-        }, questionNumber);
+        }, questionNumber,parsed_questions);
         
 
         results.push(...data);
@@ -122,6 +130,6 @@ const SEARCH_URLS = {
     await browser.close();
 
     // Save data to a JSON file
-    fs.writeFileSync("TPA_Focus_questions.json", JSON.stringify(results, null, 2));
+    fs.writeFileSync("PS_New_Focus_questions.json", JSON.stringify(results, null, 2));
     console.log("Scraping complete. Data saved to gmat_questions.json");
 })();
