@@ -88,8 +88,17 @@ async function extractQuestionData(page, item) {
 
     await login(page);
 
-    const inputData = JSON.parse(fs.readFileSync("./PS_Focus_questions.json", "utf-8"));
+    const inputData = JSON.parse(fs.readFileSync("./DS_Focus_questions.json", "utf-8"));
     const result = [];
+    // const inputData = [
+    //     {
+    //         "type": "CR",
+    //         "questionNumber": 1308,
+    //         "link": "https://gmatclub.com/forum/philosopher-not-just-any-object-can-be-a-work-of-art-if-an-object-416902.html",
+    //         "topic": "Weaken",
+    //         "difficulty": "Hard"
+    //       }
+    // ]
 
     for (const item of inputData) {
         try {
@@ -104,6 +113,6 @@ async function extractQuestionData(page, item) {
         }
     }
 
-    fs.writeFileSync("PS_Focus_questionsV2.json", JSON.stringify(result, null, 2));
+    fs.writeFileSync("DS_Focus_questionsV2.json", JSON.stringify(result, null, 2));
     await browser.close();
 })();

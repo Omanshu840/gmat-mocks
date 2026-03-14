@@ -7,11 +7,13 @@ import MSR_questions from "../scraper/MSR_questions.json";
 import G_T_questions from "../scraper/G_T_questions.json";
 import PS_Focus_questions from "../scraper/PS_Focus_questionsV2.json";
 import CR_Focus_questions from "../scraper/CR_Focus_questions.json";
+import CR_Focus_questionsV2 from "../scraper/CR_Focus_questionsV2.json";
 import RC_Focus_questions from "../scraper/RC_Focus_questions.json";
 import MSR_Focus_questions from "../scraper/MSR_Focus_questions.json";
 import G_T_Focus_questions from "../scraper/G_T_Focus_questions.json";
 import TPA_Focus_questions from "../scraper/TPA_Focus_questions.json";
 import DS_Focus_questions from "../scraper/DS_Focus_questions.json";
+import DS_Focus_questionsV2 from "../scraper/DS_Focus_questionsV2.json";
 import RC_Non_Official_questions from "../scraper/RC_Non_Official_questions.json";
 import PS_OG_question from "../scraper/PS_OG_questions.json";
 import topicsDifficulties from "../unique_topics_difficulties.json";
@@ -59,14 +61,18 @@ const TestPageV2 = () => {
     let sectionQuestion = [];
 
     if (section === "quant") {
-        if(source === "focus-tests") {
+        if (source === "focus-tests") {
             sectionQuestion = PS_Focus_questions;
             console.log("Loading Focus Questions");
-        } else if(source === "official-guide") {
+        } else if (source === "official-guide") {
             sectionQuestion = PS_OG_question;
             console.log("Loading OG Questions");
         } else {
-            sectionQuestion = [...quant_question, ...PS_Focus_questions, ...PS_OG_question];
+            sectionQuestion = [
+                ...quant_question,
+                ...PS_Focus_questions,
+                ...PS_OG_question,
+            ];
         }
         // sectionQuestion = quant_question;
         sectionQuestion = PS_Focus_questions; // Focus Questions only
@@ -74,7 +80,7 @@ const TestPageV2 = () => {
         // const common_questions = questions.filter((q) => ((q.type==="DI" || q.type==="DS")));
         // sectionQuestion = [...common_questions, ...TPA_questions, ...MSR_questions, ...G_T_questions];
         sectionQuestion = [
-            ...DS_Focus_questions,
+            ...DS_Focus_questionsV2,
             ...G_T_Focus_questions,
             ...MSR_Focus_questions,
             ...TPA_Focus_questions,
@@ -84,13 +90,14 @@ const TestPageV2 = () => {
         //     (section==="verbal" && (q.type==="CR" || q.type==="RC"))
         // ))
         // sectionQuestion = [...sectionQuestion, ...RC_Non_Official_questions];
-        sectionQuestion = [...CR_Focus_questions, ...RC_Focus_questions];
+        sectionQuestion = [...CR_Focus_questionsV2, ...RC_Focus_questions];
     }
 
     useEffect(() => {
         async function fetchData() {
             const newAttemptedQuestions = [];
             const query = new Parse.Query("TestAttempts");
+            query.limit(1000);
             const entries = await query.find();
             // const entries = prevAttempts.results;
             entries.forEach((entry) => {
@@ -115,9 +122,9 @@ const TestPageV2 = () => {
 
         window.https2http = function (imgElement) {
             if (imgElement && imgElement.src) {
-              imgElement.src = imgElement.src.replace('https://', 'http://');
+                imgElement.src = imgElement.src.replace("https://", "http://");
             }
-          };
+        };
 
         const timer = setInterval(
             () => setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0)),
@@ -359,7 +366,8 @@ const TestPageV2 = () => {
             console.log(filteredQuestion);
             setQuestion(filteredQuestion);
             setAnswer("");
-            document.getElementById("question-container").innerHTML = filteredQuestion.questionText
+            document.getElementById("question-container").innerHTML =
+                filteredQuestion.questionText;
             setCurrentDifficulty(newDifficulty);
         }
         setCurrentIndex((prev) => {
@@ -397,7 +405,8 @@ const TestPageV2 = () => {
             topic,
             question.difficulty
         );
-        document.getElementById("question-container").innerHTML = newQuestion.questionText
+        document.getElementById("question-container").innerHTML =
+            newQuestion.questionText;
         setQuestion(newQuestion);
     };
 
@@ -435,17 +444,54 @@ const TestPageV2 = () => {
                     </a>
                 </div>
                 <div className="radio-buttons">
-                    <button onClick={() => nextQuestion(answer===question.answer, answer)} className="">
-                        Next
-                    </button>
+                    {(question.type === "Quant" || question.type === "CR" || question.type === "DS") ? (
+                        <>
+                            <button
+                                onClick={() =>
+                                    nextQuestion(
+                                        answer === question.answer,
+                                        answer
+                                    )
+                                }
+                                className=""
+                            >
+                                Next
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button
+                                onClick={() => nextQuestion(true)}
+                                className=""
+                            >
+                                Correct
+                            </button>
+                            <button
+                                onClick={() => nextQuestion(false)}
+                                className=""
+                            >
+                                Incorrect
+                            </button>
+                        </>
+                    )}
                     <button onClick={() => changeQuestion()} className="">
                         Change
                     </button>
                 </div>
             </div>
+            {question.type !== "Quant" && question.type !== "CR" && question.type!=="DS" && (
+                <iframe
+                    src={question.link}
+                    className="question-iframe"
+                    title="GMAT Question"
+                ></iframe>
+            )}
             <Container>
                 {/* <a href={question.link} target="_blank" className="text-blue-500 link">Attempt Here</a> */}
-                <div id="question-container" className="question-container mt-5 mb-3 p-4">
+                <div
+                    id="question-container"
+                    className="question-container mt-5 mb-3 p-4"
+                >
                     {/* {question.questionText} */}
                 </div>
                 <div className="options">

@@ -62,6 +62,7 @@ const PracticePage = () => {
         async function fetchData() {
             const newAttemptedQuestions = [];
             const query = new Parse.Query('TestAttempts');
+            query.limit(1000);
             const entries = await query.find();
             // const entries = prevAttempts.results;
             entries.forEach(entry => {

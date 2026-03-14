@@ -180,12 +180,14 @@ const HomePage = () => {
             const entries = await query.find();
             // const entries = prevAttempts.results;
             entries.forEach(entry => {
-                newPreviousAttempts.push({
-                    id: entry.id,
-                    section: entry.attributes.Section,
-                    questions: JSON.parse(entry.attributes.Questions),
-                    createdAt: entry.attributes.createdAt
-                })
+                if(entry.attributes.Section !== "GRE") {
+                    newPreviousAttempts.push({
+                        id: entry.id,
+                        section: entry.attributes.Section,
+                        questions: JSON.parse(entry.attributes.Questions),
+                        createdAt: entry.attributes.createdAt
+                    })
+                }
             })
             newPreviousAttempts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             setPreviousAttempts(newPreviousAttempts);
@@ -216,8 +218,11 @@ const HomePage = () => {
       </div>
       <div className="mt-2 sections">
         <Link to={`/gmat-mocks/test/verbal/${source}`} className="block">Verbal</Link>
-        <Link to={`/gmat-mocks/testV2/quant/${source}`} className="block">Quant</Link>
+        <Link to={`/gmat-mocks/test/quant/${source}`} className="block">Quant</Link>
         <Link to={`/gmat-mocks/test/data-insights/${source}`} className="block">Data Insights</Link>
+        <Link to={`/gmat-mocks/testV2/verbal/${source}`} className="block">Verbal V2</Link>
+        <Link to={`/gmat-mocks/testV2/quant/${source}`} className="block">Quant V2</Link>
+        <Link to={`/gmat-mocks/testV2/data-insights/${source}`} className="block">Data Insights V2</Link>
       </div>
 
       <h3 className="mt-5 mb-3">Practice Sections</h3>
@@ -296,6 +301,7 @@ const HomePage = () => {
                                         <td>{question.answer ? "Correct": <div style={{color: 'red'}}>Incorrect</div>}</td>
                                         <td><div style={{overflowWrap: 'break-word'}}>{question.topic}</div></td>
                                         <td style={(question.timeTaken > "2:00" ? {backgroundColor: '#E96245', color: 'white'} : {})}><div>{question.timeTaken}</div></td>
+                                        <td>{question.selectedAnswer}</td>
                                     </tr>
                                 }   
                                 </>
